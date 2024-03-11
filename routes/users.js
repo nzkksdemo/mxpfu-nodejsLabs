@@ -47,7 +47,7 @@ router.post("/",(req,res)=>{
     }
     users.push(newUser);
     
-    res.send(`An user ${firstName} ${lastName} has been added successfully!`);
+    res.send(`An user named "${newUser.firstName} ${newUser.lastName}" has been added successfully!`);
 });
 
 

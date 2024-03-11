@@ -31,9 +31,9 @@ router.get("/",(req,res)=>{
 // GET by specific ID request: Retrieve a single user with email ID
 router.get("/:email",(req,res)=>{
     const email = req.params.email;
-    const user = users.filter(item => item.email === email);
+    const filtered_users = users.filter(item => item.email === email);
 
-    res.send(user);
+    res.send(filtered_users);
 });
 
 
@@ -53,8 +53,33 @@ router.post("/",(req,res)=>{
 
 // PUT request: Update the details of a user by email ID
 router.put("/:email", (req, res) => {
-  // Copy the code here
-  res.send("Yet to be implemented")//This line is to be replaced with actual return value
+    const email = req.params.email;
+    const filtered_users = users.filter(item => item.email === email);
+
+    if(filtered_users.length > 0) {
+        let filtered_user = filtered_users[0];
+        const firstName = req.body.firstName;
+        const lastName = req.body.lastName;
+        const DOB = req.body.DOB;
+        
+        if (DOB) {
+            filtered_user.DOB = DOB;
+        }
+        
+        if (firstName) {
+            filtered_user.firstName = firstName;
+        }
+        
+        if (lastName) {
+            filtered_user.lastName = lastName;
+        }
+
+        users = users.filter(user => user.email !== email);
+        users.push(filtered_user);
+        res.send(`User with the ${email} updated successfully`);
+    } else {
+        res.send("unable to find the user");
+    }
 });
 
 
